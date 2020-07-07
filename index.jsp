@@ -27,7 +27,7 @@
 <%--  <%--%>
 <%--    if (session.getAttribute("login")==null||!session.getAttribute("login").equals("ok")){--%>
 <%--  %>--%>
-  <h1 align="center">地摊规范管理</h1>
+  <h1 align="center">地摊管理</h1>
   <form onsubmit="return dl()" action="/dl" method="post">
     <table align="center">
       <tr>

@@ -1,9 +1,7 @@
-<%@ page import="java.util.Iterator" %>
 <%@ page import="cn.fvti.Function" %>
-<%@ page import="java.util.Map" %>
 <%@ page import="cn.fvti.User" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %><%--
+<%@ page import="java.util.*" %><%--
   Created by IntelliJ IDEA.
   User: asd
   Date: 2020/7/5
@@ -16,12 +14,14 @@
     <title>Title</title>
     <script LANGUAGE="JavaScript">
         function tz() {
-            var sc =confirm("是否删除"+document.getElementById("n").value);
-            var tel = document.getElementById("sc").value;
+            // var sc =confirm("是否删除"+document.getElementById("n").value);
+            var sc=confirm("确定删除？")
+            // var tel = document.getElementById("n").value;
             if (sc==true){
-                window.location.href="/remove?tel="+tel;
-                // return true;
+                // window.location.href="/remove?tel="+tel;
+                return true;
             }else {
+
                 return false;
             }
             // return false;
@@ -64,19 +64,23 @@
 ////            out.print(integ);
 //        }
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-    for (String in : Function.map.keySet()){
-            User value = Function.map.get(in);
-            if (in.equals("root")){
-                continue;
-            }
+    List<Map.Entry<String,User>> list = new ArrayList<>(Function.map.entrySet());
+    Iterator<Map.Entry<String, User>> iter = list.iterator();
+//    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    while(iter.hasNext()){
+        Map.Entry<String, User> item = iter.next();
+        String key = item.getKey();
+        User value = item.getValue();
+        if (key.equals("root")){
+            continue;
+        }
         Date date = value.getZcsj();
 %>
 
     <tr>
-        <input type="hidden" id="sc" value=<%=value.getYhm()%>>
+<%--        <input type="hidden" id="sc" value=<%=value.getYhm()%>>--%>
         <td><%=value.getName()%></td>
-        <td id="in"><%=in%></td>
+        <td><%=value.getYhm()%></td>
         <td><%=value.getSfzh()%></td>
         <td><%=value.getFzr()%></td>
         <td><%=value.getAddress()%></td>
@@ -84,7 +88,8 @@
         <td><%=value.getJynr()%></td>
         <td><%=value.getZj()%></td>
         <td><%=sdf.format(date)%></td>
-        <td><a href='bj.jsp?tel=<%=value.getYhm()%>'><button type="button">编辑</button></a>&nbsp;&nbsp;&nbsp;<a  onclick="tz()"><button type="button" value='<%=value.getName()%>   <%=value.getYhm()%>' id="n">删除</button></a></td>
+    <input type="hidden" value="<%=value.getName()%>  <%=value.getYhm()%>" id="n">
+        <td><a href='bj.jsp?tel=<%=value.getYhm()%>'><button type="button">编辑</button></a>&nbsp;&nbsp;&nbsp;<a  href="/remove?tel=<%=value.getYhm()%>" onclick="return tz()"><button type="button"  id="n">删除</button></a></td>
     </tr>
 
 <%
